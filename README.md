@@ -7,11 +7,6 @@
     ```
     sudo apt-get install code
     ```
-  - Installing [NodeJS](https://nodejs.org/en/download/) or using command line below.
-    ```
-    sudo apt-get install nodejs
-    sudo apt-get install npm
-    ```
   - Installing [fnm](https://github.com/Schniz/fnm) (fast node version manager).
   - Installing [Git](https://git-scm.com/downloads) or using command line below.
     ```
@@ -34,3 +29,34 @@
 
 - [X] Create a calculator package using NodeJS.
 - [X] Create a validation package using NodeJS.
+
+## 2nd Week
+### Points covered
+- `APIs` stands for Application Programming Interface.
+- `RESTful APIs` stands for Representational State Transfer APIs.
+- `HTTPS methods` are used to perform different actions on the same resource.
+  - GET: Retrieve data from the server.
+  - POST: Send data to the server.
+  - PUT: Update data on the server.
+  - PATCH: Partially update data on the server.
+  - DELETE: Delete data from the server.
+- `HTTP status codes` are used to indicate the status of the request.
+  - 1xx: Informational.
+  - 2xx: Success.
+  - 3xx: Redirection.
+  - 4xx: Client Error.
+  - 5xx: Server Error.
+- NodeJS `http` module to create a server.
+- `Express` framework to create a server.
+- `postman` to test your APIs.
+
+### Resources
+- [HTTP Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
+- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+- [NodeJS http module](https://nodejs.org/api/http.html)
+- [Express framework](https://expressjs.com/)
+- [Postman](https://www.postman.com/)
+- [RESTful API Designing guidelines](https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9)
+
+### Tasks
+- [ ] Build NodeJS Server using ExpressJS Framework
