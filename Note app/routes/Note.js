@@ -12,12 +12,12 @@ const checkAuth = require("../middlewares/checkAuth");
 
 // Routes
 router.post("/", checkAuth, noteController.createNote);
-router.get("/", noteController.getAllNotes);
-router.get("/:id", noteController.getNote);
-router.post("/:id/:title", noteController.updateNoteTitle);
-router.post("/:id/:description", noteController.updateNoteDescription);
-router.delete("/", noteController.deleteAllNotes);
-router.delete("/:id", noteController.deleteNote);
+router.get("/", checkAuth, noteController.getAllNotes);
+router.get("/:id", checkAuth, noteController.getNote);
+router.post("/:id/:title", checkAuth, noteController.updateNoteTitle);
+router.post("/:id/:description", checkAuth, noteController.updateNoteDescription);
+router.delete("/", checkAuth, noteController.deleteAllNotes);
+router.delete("/:id", checkAuth, noteController.deleteNote);
 
 // Export
 module.exports = router;
