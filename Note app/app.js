@@ -23,8 +23,8 @@ const User = require("./routes/User");
 const Note = require("./routes/Note");
 
 // Injections
-app.use("/user", User);
-app.use("/note", Note);
+app.use("/users", User);
+app.use("/notes", Note);
 
 // The NodeJS App is running on port 3000
 const port = 3000;

@@ -11,7 +11,7 @@ const noteSchema = new mongoose.Schema({
         required: [true, "Description is Mandatory"],
         trim: true
     },
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

@@ -5,16 +5,19 @@ const express = require("express");
 const router = express.Router();
 
 // Controllers
-const Review_Controller = require("../controllers/Review");
+const noteController = require("../controllers/Note");
+
+// Middlewares
+const checkAuth = require("../middlewares/checkAuth");
 
 // Routes
-router.get("/getReviews", Review_Controller.GetReviews)
-
-router.get("/getReview", Review_Controller.GetReview)
-
-router.post("/addReview", Review_Controller.AddReview)
-
-router.delete("/deleteReview", Review_Controller.DeleteReview)
+router.post("/", checkAuth, noteController.createNote);
+router.get("/", noteController.getAllNotes);
+router.get("/:id", noteController.getNote);
+router.post("/:id/:title", noteController.updateNoteTitle);
+router.post("/:id/:description", noteController.updateNoteDescription);
+router.delete("/", noteController.deleteAllNotes);
+router.delete("/:id", noteController.deleteNote);
 
 // Export
 module.exports = router;
