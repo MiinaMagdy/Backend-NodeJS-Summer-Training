@@ -44,8 +44,16 @@ const getNote = async (req, res) => {
     }
 }
 const updateNote = async (req, res) => {
+    console.log("update note");
     try {
-        return sendResponse(res, 200, "note title updated successfully", req);
+        console.log(req.params);
+        const note = await Note.findOne({ _id: req.params.id, userId: req.user._id });
+        if (!note) {
+            return sendResponse(res, 400, "No such note id");
+        }
+        const updatedNote = { ...note, ...req.body };
+        const result = await Note.findOneAndUpdate({ _id: req.params.id, userId: req.user._id }, updatedNote, { new: true });
+        return sendResponse(res, 200, "note title updated successfully", result);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
@@ -53,6 +61,7 @@ const updateNote = async (req, res) => {
 const deleteAllNotes = async (req, res) => {
     try {
         const notes = await Note.find({ userId: req.user._id });
+        await Note.deleteMany({ userId: req.user._id });
         return sendResponse(res, 200, "all notes deleted successfully", notes);
     } catch (err) {
         return sendResponse(res, 500, err.message);
@@ -60,7 +69,8 @@ const deleteAllNotes = async (req, res) => {
 }
 const deleteNote = async (req, res) => {
     try {
-        return sendResponse(res, 200, "a note deleted successfully", req);
+        const note = await Note.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+        return sendResponse(res, 200, "a note deleted successfully", note);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
