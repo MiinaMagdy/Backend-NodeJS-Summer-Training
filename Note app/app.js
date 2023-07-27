@@ -27,7 +27,10 @@ app.use("/users", User);
 app.use("/notes", Note);
 
 // The NodeJS App is running on port 3000
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Running on Port: ${ port }`)
 });
+
+// Exporting the app
+module.exports = app;

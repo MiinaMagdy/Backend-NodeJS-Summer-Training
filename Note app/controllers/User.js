@@ -60,6 +60,9 @@ const deleteUser = async (req, res) => {
     try {
         console.log(req.params);
         const user = await User.findById({ _id: req.params.id });
+        if (!user) {
+            return sendResponse(res, 400, "No such user id");
+        }
         if (user.role === "admin") {
             return sendResponse(res, 400, "admin cannot be deleted");
         }

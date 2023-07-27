@@ -51,9 +51,11 @@ const updateNote = async (req, res) => {
         if (!note) {
             return sendResponse(res, 400, "No such note id");
         }
-        const updatedNote = { ...note, ...req.body };
+        const updatedNote = note;
+        updatedNote.set(req.body);
+        console.log("Updated note:", updatedNote);
         const result = await Note.findOneAndUpdate({ _id: req.params.id, userId: req.user._id }, updatedNote, { new: true });
-        return sendResponse(res, 200, "note title updated successfully", result);
+        return sendResponse(res, 200, "note updated successfully", result);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }

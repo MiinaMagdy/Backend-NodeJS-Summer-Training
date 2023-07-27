@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
         const user = await User.findById({ _id: req.user._id });
         console.log("Admin:", user);
         if(user.role !== "admin") {
-            return sendResponse(res, 404, "The user is not admin");
+            return sendResponse(res, 404, "Only admins can delete users");
         }
         next();
     } catch(err) {
