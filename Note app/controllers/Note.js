@@ -15,45 +15,45 @@ const sendResponse = require('../utils/sendResponse');
 const createNote = async (req, res) => {
     try {
         const data = req.body;
-        console.log(req.body);
-        // const review = await new Note(data).save;
-        return sendResponse(res, 200, "note created successfully");
+        data.userId = req.user._id;
+        console.log(data);
+        const note = await new Note(data).save();
+        return sendResponse(res, 200, "note created successfully", note);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
 const getAllNotes = async (req, res) => {
     try {
-        return sendResponse(res, 200, "all notes sent successfully", req);
+        const notes = await Note.find({ userId: req.user._id });
+        return sendResponse(res, 200, "all notes sent successfully", notes);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
 const getNote = async (req, res) => {
     try {
-        const note = await Note.findById({ _id: req.param.id });
-        return sendResponse(res, 200, `note of id ${req.param.id}`, note);
+        console.log(req.params);
+        const note = await Note.findOne({ _id: req.params.id, userId: req.user._id });
+        if (!note) {
+            return sendResponse(res, 400, "No such note id");
+        }
+        return sendResponse(res, 200, `Note of id ${req.params.id}`, note);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
-const updateNoteTitle = async (req, res) => {
+const updateNote = async (req, res) => {
     try {
         return sendResponse(res, 200, "note title updated successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
-const updateNoteDescription = async (req, res) => {
-    try {
-        return sendResponse(res, 200, "note description updated successfully", req);
-    } catch (err) {
-        return sendResponse(res, 500, err.message);
-    }
-}
 const deleteAllNotes = async (req, res) => {
     try {
-        return sendResponse(res, 200, "all notes deleted successfully", req);
+        const notes = await Note.find({ userId: req.user._id });
+        return sendResponse(res, 200, "all notes deleted successfully", notes);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
@@ -71,8 +71,7 @@ module.exports = {
     createNote,
     getAllNotes,
     getNote,
-    updateNoteTitle,
-    updateNoteDescription,
+    updateNote,
     deleteAllNotes,
     deleteNote
 }

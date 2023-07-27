@@ -16,5 +16,7 @@ router.post("/signup", userController.signup)
 router.post("/login", userController.login)
 router.delete("/:id", checkAuth, checkAdmin, userController.deleteUser);
 router.delete("/", checkAuth, checkAdmin, userController.deleteAllUsers);
+// TODO: change password
+
 // Export
 module.exports = router;

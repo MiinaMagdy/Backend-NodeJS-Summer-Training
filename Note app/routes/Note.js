@@ -14,8 +14,7 @@ const checkAuth = require("../middlewares/checkAuth");
 router.post("/", checkAuth, noteController.createNote);
 router.get("/", checkAuth, noteController.getAllNotes);
 router.get("/:id", checkAuth, noteController.getNote);
-router.post("/:id/:title", checkAuth, noteController.updateNoteTitle);
-router.post("/:id/:description", checkAuth, noteController.updateNoteDescription);
+router.post("/:id", checkAuth, noteController.updateNote);
 router.delete("/", checkAuth, noteController.deleteAllNotes);
 router.delete("/:id", checkAuth, noteController.deleteNote);
 

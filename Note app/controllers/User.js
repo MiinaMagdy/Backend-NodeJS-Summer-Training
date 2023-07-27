@@ -1,10 +1,3 @@
-/*
- * This Controller includes the Admin Router Handlers and Business Logic
- * Here is the Admin Signup Controller
- * Here is the Admin Login Controller
- * Here is the Admin ChangePass Controller
-*/
-
 // Packages
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
