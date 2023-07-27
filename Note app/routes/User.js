@@ -5,16 +5,16 @@ const express = require("express");
 const router = express.Router();
 
 // Controllers
-const User_Controller = require("../controllers/User");
+const userController = require("../controllers/User");
 
 // Middlewares
 const checkAuth = require("../middlewares/checkAuth");
 const checkAdmin = require("../middlewares/checkAdmin");
 
 // Routes
-router.post("/signup", Admin_Controller.Signup)
-router.post("/login", Admin_Controller.Login)
-router.put("/changePass", checkAuth, checkAdmin, Admin_Controller.ChangePass)
-router.delete("/delete", checkAuth, checkAdmin, Admin_Controller.DeleteAdmin)
+router.post("/signup", userController.signup)
+router.post("/login", userController.login)
+router.delete("/:id", checkAuth, checkAdmin, userController.deleteUser);
+router.delete("/", checkAuth, checkAdmin, userController.deleteAllUsers);
 // Export
 module.exports = router;

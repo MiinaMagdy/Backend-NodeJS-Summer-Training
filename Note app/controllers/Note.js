@@ -15,7 +15,8 @@ const sendResponse = require('../utils/sendResponse');
 const createNote = async (req, res) => {
     try {
         const data = req.body;
-        const review = await new Note(data).save;
+        console.log(req.body);
+        // const review = await new Note(data).save;
         return sendResponse(res, 200, "note created successfully");
     } catch (err) {
         return sendResponse(res, 500, err.message);
@@ -23,7 +24,7 @@ const createNote = async (req, res) => {
 }
 const getAllNotes = async (req, res) => {
     try {
-
+        return sendResponse(res, 200, "all notes sent successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
@@ -38,28 +39,28 @@ const getNote = async (req, res) => {
 }
 const updateNoteTitle = async (req, res) => {
     try {
-
+        return sendResponse(res, 200, "note title updated successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
 const updateNoteDescription = async (req, res) => {
     try {
-
+        return sendResponse(res, 200, "note description updated successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
 const deleteAllNotes = async (req, res) => {
     try {
-
+        return sendResponse(res, 200, "all notes deleted successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }
 }
 const deleteNote = async (req, res) => {
     try {
-
+        return sendResponse(res, 200, "a note deleted successfully", req);
     } catch (err) {
         return sendResponse(res, 500, err.message);
     }

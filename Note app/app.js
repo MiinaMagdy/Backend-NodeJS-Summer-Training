@@ -3,17 +3,17 @@ const express = require("express")
 const app = express()
 
 // Including Morgan Package
-// const morgan = require("morgan")
-// app.use(morgan("dev"))
+const morgan = require("morgan")
+app.use(morgan("dev"))
 
 // Including Cors Package
-// const cors = require("cors")
-// app.use(cors())
+const cors = require("cors")
+app.use(cors())
 
 // Setting up the bodyParser
-// const bodyParser = require("body-parser")
-// app.use(bodyParser.json())
-// app.use(bodyParser.urlencoded({ extended: false }))
+const bodyParser = require("body-parser")
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // Connection to MongoDB
 require("./connection/mongoose")

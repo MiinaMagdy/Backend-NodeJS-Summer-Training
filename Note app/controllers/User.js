@@ -8,12 +8,14 @@
 // Packages
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
-// Varaibles
-const key = "bPeShVmYq3t6w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-KaPdSgVkXp2s5v8y/B?E(H+MbQeThWmZq3t6w9z$C&F)J@NcRfUjXn2r5u7x!A%D*G-KaPdSgVkYp3s6v9y/B?E(H+MbQeThWmZq4t7w!z%C&F)J@NcRfUjXn2r5u8x/A?D(G-KaPdSgVkYp3s6v9y$B&E)H@MbQeThWmZq4t7w!z%C*F-JaNdRfUjXn2r5u8x/A?D(G+KbPeShVkYp3s6v9y$B&E)H@McQfTjWnZq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z$C&F)J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeThWmYq3t6w9z$C&F)J@NcRfUjXn2r4u7x!A%D*G-KaPdSgVkYp3s6v8y/B?E(H+"
+dotenv.config();
+// TOKEN KEY
+const key = process.env.TOKEN_SECRET;
 
 // Models
-const Admin = require('../models/User');
+const User = require('../models/User');
 
 //  Utils
 const sendResponse = require('../utils/sendResponse');
@@ -38,14 +40,14 @@ const Signup = async (req, res) => {
         }
 
         // The Admin is found in the Admin Collection
-        let founded = await Admin.findOne({ email: email });
+        let founded = await User.findOne({ email: email });
         if (founded) {
             return sendResponse(res, 409, "Email is already found");
         }
 
         // The Admin is not found in the Admin Collection
         req.body.password = await bcrypt.hash(req.body.password, 10);
-        const user = await new Admin(req.body).save();
+        const user = await new User(req.body).save();
         const token = jwt.sign({ _id: user._id }, key);
         const result = { token: token, user: user }
         return sendResponse(res, 201, "Account has been created Successfully", result);
@@ -62,7 +64,7 @@ const Login = async (req, res) => {
         if (!email || !password) {
             return sendResponse(res, 400, 'All the fields are mandatory');
         }
-        var admin = await Admin.findOne({ email: email })
+        var admin = await User.findOne({ email: email })
         if (!admin) {
             return sendResponse(res, 401, 'The Email is not exist');
         }
@@ -79,7 +81,7 @@ const Login = async (req, res) => {
 }
 const DeleteAdmin = async (req, res) => {
     try {
-        await Admin.findByIdAndDelete({ _id: req.user._id });
+        await User.findByIdAndDelete({ _id: req.user._id });
         return sendResponse(res, 200, 'The User is deleted successfully');
     } catch (err) {
         return sendResponse(res, 500, err.message, 'Something went wrong');
@@ -92,7 +94,7 @@ const ChangePass = async (req, res) => {
         if (oldpassword.length < 6 || newpassword.length < 6 || confirmpassword.length < 6)
             return sendResponse(res, 400, "All passwords must be at least 6 characters");
 
-        const user = await Admin.findById({ _id: req.user._id });
+        const user = await User.findById({ _id: req.user._id });
 
         const result = await bcrypt.compare(oldpassword, user.password);
 
@@ -104,7 +106,7 @@ const ChangePass = async (req, res) => {
             return sendResponse(res, 400, "The two passwords are not identical");
 
         password = await bcrypt.hash(newpassword, 10);
-        await Admin.findByIdAndUpdate({ _id: user._id }, { password: password }, { new: true });
+        await User.findByIdAndUpdate({ _id: user._id }, { password: password }, { new: true });
 
         return sendResponse(res, 200, "Password has been updated successfully");
 
@@ -113,12 +115,57 @@ const ChangePass = async (req, res) => {
         return sendResponse(res, 500, err.message, 'Something went wrong');
     }
 }
+const signup = async (req, res) => {
+    console.log("singup")
+    try {
+        const { fullname, email, password, confirmPassword } = req.body;
+        if (password !== confirmPassword) {
+            return sendResponse(res, 400, "The two passwords are not matched");
+        }
+        let founded = await User.findOne({ email: email });
+        if (founded) {
+            return sendResponse(res, 400, "The email is already exist");
+        }
+        
+        const user = await new User(req.body).save();
+        const token = jwt.sign({ _id: user._id }, key);
+        const result = { token, user };
+        return sendResponse(res, 200, "user singed up successfully", result);
+    } catch (err) {
+        return sendResponse(res, 500, err.message, "Something went wrong");
+    }
+}
+const login = async (req, res) => {
+    console.log("login");
+    try {
+        
+        return sendResponse(res, 200, "user logged in successfully", "yes");
+    } catch (err) {
+        return sendResponse(res, 500, err.message, "Something went wrong");
+    }
+}
+const deleteUser = async (req, res) => {
+    console.log("delete user")
+    try {
+        return sendResponse(res, 200, "user deleted successfully");
+    } catch (err) {
+        return sendResponse(res, 500, err.message, "Something went wrong");
+    }
+}
+const deleteAllUsers = async (req, res) => {
+    console.log("delete all users")
+    try {
+        return sendResponse(res, 200, "users deleted successfully");
+    } catch (err) {
+        return sendResponse(res, 500, err.message, "Something went wrong");
+    }
+}
 
 // Exports
 module.exports = {
-    Signup,
-    Login,
-    DeleteAdmin,
-    ChangePass,
+    signup,
+    login,
+    deleteUser,
+    deleteAllUsers
 }
 
