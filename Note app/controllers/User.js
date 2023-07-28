@@ -28,7 +28,7 @@ const signup = async (req, res) => {
 
         req.body.password = await bcrypt.hash(req.body.password, 10);
         const user = await new User(req.body).save();
-        const token = jwt.sign({ _id: user._id }, key);
+        const token = jwt.sign({ _id: user._id }, key, { expiresIn: "1h" });
         const result = { token, user };
         return sendResponse(res, 200, "user singed up successfully", result);
     } catch (err) {
@@ -39,6 +39,9 @@ const login = async (req, res) => {
     console.log("login");
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return sendResponse(res, 400, "email and\/or password is missing");
+        }
         const user = await User.findOne({ email });
         if (!user) {
             return sendResponse(res, 400, "user not founded");
@@ -47,7 +50,7 @@ const login = async (req, res) => {
         if (!passwordMatch) {
             return sendResponse(res, 400, "Password is wrong");
         }
-        const token = jwt.sign({ _id: user._id }, key);
+        const token = jwt.sign({ _id: user._id }, key, { expiresIn: "1h" });
         const result = { token, user };
         // TODO: store token after login
         return sendResponse(res, 200, "user logged in successfully", result);
