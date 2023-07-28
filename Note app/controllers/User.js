@@ -9,6 +9,7 @@ const key = process.env.TOKEN_SECRET;
 
 // Models
 const User = require('../models/User');
+const Note = require('../models/Note');
 
 //  Utils
 const sendResponse = require('../utils/sendResponse');
@@ -67,6 +68,7 @@ const deleteUser = async (req, res) => {
             return sendResponse(res, 400, "admin cannot be deleted");
         }
         await User.deleteOne(user);
+        await Note.deleteMany({ userId: req.params.id });
         console.log("User:", user);
         return sendResponse(res, 200, "user deleted successfully", user);
     } catch (err) {
@@ -78,6 +80,7 @@ const deleteAllUsers = async (req, res) => {
     try {
         const users = await User.find({ role: "user" });
         await User.deleteMany({ role: "user" });
+        await Note.deleteMany({ });
         return sendResponse(res, 200, "users deleted successfully", users);
     } catch (err) {
         return sendResponse(res, 500, err.message, "Something went wrong");
