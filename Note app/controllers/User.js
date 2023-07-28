@@ -75,23 +75,11 @@ const deleteUser = async (req, res) => {
         return sendResponse(res, 500, err.message, "Something went wrong");
     }
 }
-const deleteAllUsers = async (req, res) => {
-    console.log("delete all users")
-    try {
-        const users = await User.find({ role: "user" });
-        await User.deleteMany({ role: "user" });
-        await Note.deleteMany({ });
-        return sendResponse(res, 200, "users deleted successfully", users);
-    } catch (err) {
-        return sendResponse(res, 500, err.message, "Something went wrong");
-    }
-}
 
 // Exports
 module.exports = {
     signup,
     login,
-    deleteUser,
-    deleteAllUsers
+    deleteUser
 }
 
