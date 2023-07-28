@@ -1,10 +1,3 @@
-/*
- * This Controller includes the Review Router Handlers and Business Logic
- * Here is the Review GetReviews Controller
- * Here is the Review AddReview Controller
- * Here is the Review DeleteReview Controller
-*/
-
 // Models
 const Note = require('../models/Note');
 
