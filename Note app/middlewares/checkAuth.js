@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
 const key = process.env.TOKEN_SECRET;
 
 const sendResponse = require("../utils/sendResponse");

@@ -1,9 +1,8 @@
 // Packages
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
 // TOKEN KEY
 const key = process.env.TOKEN_SECRET;
 
