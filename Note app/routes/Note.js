@@ -9,14 +9,15 @@ const noteController = require("../controllers/Note");
 
 // Middlewares
 const checkAuth = require("../middlewares/checkAuth");
+const checkUser = require("../middlewares/checkUser");
 
 // Routes
-router.get("/", checkAuth, noteController.getAllNotes);
-router.get("/:id", checkAuth, noteController.getNote);
-router.post("/", checkAuth, noteController.createNote);
-router.post("/:id", checkAuth, noteController.updateNote);
-router.delete("/", checkAuth, noteController.deleteAllNotes);
-router.delete("/:id", checkAuth, noteController.deleteNote);
+router.get("/", checkAuth, checkUser, noteController.getAllNotes);
+router.get("/:id", checkAuth, checkUser, noteController.getNote);
+router.post("/", checkAuth, checkUser, noteController.createNote);
+router.post("/:id", checkAuth, checkUser, noteController.updateNote);
+router.delete("/", checkAuth, checkUser, noteController.deleteAllNotes);
+router.delete("/:id", checkAuth, checkUser, noteController.deleteNote);
 
 // Export
 module.exports = router;
